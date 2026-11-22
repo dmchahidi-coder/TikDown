@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#080d1b">
+  <title>TikSave Maroc - تحميل فيديوهات TikTok بدون علامة مائية</title>
+  <meta name="description" content="حمّل فيديوهات TikTok بسهولة، مع خيارات الفيديو والصوت، من خلال واجهة مجانية وسهلة الاستعمال.">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://dmchahidi-coder.github.io/tiksave/">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="ar_MA">
+  <meta property="og:title" content="TikSave Maroc - TikTok Downloader">
+  <meta property="og:description" content="أداة سهلة لتحميل فيديوهات TikTok والصوت.">
+  <meta property="og:url" content="https://dmchahidi-coder.github.io/tiksave/">
+  <meta name="twitter:card" content="summary">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { font-family: "Cairo", "Inter", sans-serif; }
+    html { scroll-behavior: smooth; }
+    .glass { background: rgba(15,23,42,.78); backdrop-filter: blur(16px); }
+    .glow { box-shadow: 0 20px 80px rgba(236,72,153,.13); }
+    .gradient-text { background: linear-gradient(100deg,#f472b6,#67e8f9); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .spinner { width:22px;height:22px;border:3px solid rgba(255,255,255,.25);border-top-color:white;border-radius:50%;animation:spin .8s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    [hidden] { display:none !important; }
+    input { min-width:0; }
+    a:focus-visible,button:focus-visible,input:focus-visible,summary:focus-visible { outline:2px solid #67e8f9; outline-offset:3px; }
+  </style>
+</head>
+<body class="min-h-screen bg-[#080d1b] text-slate-100 selection:bg-pink-500 selection:text-white">
+  <header class="sticky top-0 z-40 border-b border-white/10 glass">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+      <a href="#top" class="flex items-center gap-3" aria-label="TikSave Maroc home">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-pink-600 to-cyan-500 text-xl font-black shadow-lg">↓</span>
+        <span class="text-xl font-extrabold tracking-tight">TikSave <span class="gradient-text">Maroc</span></span>
+      </a>
+      <nav class="hidden items-center gap-7 text-sm font-semibold text-slate-300 md:flex">
+        <a class="hover:text-white" href="#how" data-i18n="navHow">طريقة الاستعمال</a>
+        <a class="hover:text-white" href="#faq" data-i18n="navFaq">الأسئلة الشائعة</a>
+        <a class="hover:text-white" href="#about" data-i18n="navAbout">حول الموقع</a>
+      </nav>
+      <label class="sr-only" for="language" data-i18n="languageLabel">اللغة</label>
+      <select id="language" class="rounded-xl border border-white/10 bg-slate-900 px-3 py-2 text-sm" aria-label="Language">
+        <option value="ar">العربية</option><option value="fr">Français</option><option value="en">English</option>
+      </select>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="relative overflow-hidden px-4 pb-16 pt-16 sm:pt-24">
+      <div class="pointer-events-none absolute -top-24 left-1/2 h-80 w-[38rem] -translate-x-1/2 rounded-full bg-pink-600/15 blur-[100px]"></div>
+      <div class="relative mx-auto max-w-3xl text-center">
+        <span class="mb-5 inline-flex rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-xs font-bold text-cyan-200" data-i18n="badge">سريع • سهل الاستعمال • بدون تسجيل</span>
+        <h1 class="mb-5 text-3xl font-extrabold leading-tight sm:text-5xl" data-i18n="heroTitle">حمّل فيديوهات TikTok <span class="gradient-text">بسهولة</span></h1>
+        <p class="mx-auto mb-9 max-w-2xl text-sm leading-8 text-slate-400 sm:text-base" data-i18n="heroDesc">ألصق رابط فيديو TikTok، ثم اطلب جلب معلوماته واختر الفيديو أو الصوت إذا كانت الخدمة متاحة.</p>
+
+        <div class="glass glow rounded-3xl border border-white/10 p-3 text-start sm:p-4">
+          <div class="flex flex-col gap-3 sm:flex-row">
+            <input id="tiktok-url" type="url" inputmode="url" autocomplete="url" spellcheck="false"
+              class="h-14 flex-1 rounded-2xl border border-white/10 bg-slate-950/90 px-4 text-left text-sm text-white outline-none transition placeholder:text-slate-500 focus:border-pink-400"
+              dir="ltr" placeholder="https://www.tiktok.com/@user/video/..." data-i18n-placeholder="urlPlaceholder"
+              aria-label="TikTok URL">
+            <button id="paste-btn" type="button" class="h-14 rounded-2xl border border-white/10 bg-slate-800 px-5 font-bold transition hover:bg-slate-700" data-i18n="paste">لصق الرابط</button>
+            <button id="fetch-btn" type="button" class="flex h-14 items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-pink-600 to-rose-600 px-7 font-extrabold shadow-lg shadow-pink-900/30 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60">
+              <span id="fetch-spinner" class="spinner" hidden></span><span data-i18n="getVideo">جلب الفيديو</span>
+            </button>
+          </div>
+          <p class="mt-3 px-1 text-xs leading-6 text-slate-500" data-i18n="inputHint">استعمل رابطاً عاماً لفيديو TikTok. لا تدخل كلمة المرور أو أي معلومات شخصية.</p>
+        </div>
+
+        <div id="status" class="mt-5 rounded-2xl border p-4 text-sm leading-7" role="status" aria-live="polite" hidden></div>
+
+        <article id="result" class="mt-6 rounded-3xl border border-white/10 bg-slate-900/90 p-5 text-start shadow-2xl" hidden>
+          <div class="grid gap-5 sm:grid-cols-[160px_1fr]">
+            <img id="cover" class="aspect-[3/4] w-full rounded-2xl border border-white/10 bg-slate-950 object-cover" alt="TikTok video cover" loading="lazy">
+            <div class="min-w-0">
+              <div class="mb-3 flex items-center gap-3">
+                <img id="avatar" class="h-10 w-10 rounded-full border border-white/10 object-cover" alt="Creator avatar">
+                <span id="creator" class="font-bold text-cyan-300" dir="ltr"></span>
+              </div>
+              <p id="video-title" class="mb-5 break-words text-sm leading-7 text-slate-300"></p>
+              <div class="grid gap-3">
+                <button id="video-download" type="button" class="rounded-xl bg-emerald-600 px-4 py-3.5 font-extrabold transition hover:bg-emerald-500" data-i18n="downloadVideo">تحميل الفيديو بدون علامة مائية</button>
+                <button id="audio-download" type="button" class="rounded-xl border border-white/10 bg-slate-800 px-4 py-3.5 font-bold transition hover:bg-slate-700" data-i18n="downloadAudio">تحميل الصوت MP3</button>
+              </div>
+              <p class="mt-3 text-xs leading-6 text-slate-500" data-i18n="downloadHint">إذا منع المتصفح التحميل المباشر، سيفتح رابط الملف في نافذة جديدة.</p>
+            </div>
+          </div>
+        </article>
+
+        <p class="mx-auto mt-7 max-w-2xl text-xs leading-6 text-slate-500" data-i18n="rightsNotice">احترم حقوق النشر وخصوصية أصحاب المحتوى. حمّل فقط المحتوى الذي تملك الحق في استعماله.</p>
+      </div>
+    </section>
+
+    <section id="how" class="border-y border-white/5 bg-slate-900/35 px-4 py-16">
+      <div class="mx-auto max-w-5xl">
+        <h2 class="mb-3 text-center text-2xl font-extrabold sm:text-3xl" data-i18n="howTitle">كيفاش تستعمل TikSave Maroc؟</h2>
+        <p class="mb-9 text-center text-sm text-slate-400" data-i18n="howDesc">ثلاث خطوات بسيطة للبدء.</p>
+        <div class="grid gap-4 md:grid-cols-3">
+          <div class="rounded-2xl border border-white/10 bg-slate-900 p-6"><span class="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-pink-500/15 font-extrabold text-pink-300">1</span><h3 class="mb-2 font-bold" data-i18n="step1Title">نسخ الرابط</h3><p class="text-sm leading-7 text-slate-400" data-i18n="step1Text">افتح TikTok واختر مشاركة ثم نسخ الرابط.</p></div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900 p-6"><span class="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-cyan-500/15 font-extrabold text-cyan-300">2</span><h3 class="mb-2 font-bold" data-i18n="step2Title">لصق الرابط</h3><p class="text-sm leading-7 text-slate-400" data-i18n="step2Text">ألصق الرابط في الخانة واضغط على جلب الفيديو.</p></div>
+          <div class="rounded-2xl border border-white/10 bg-slate-900 p-6"><span class="mb-4 grid h-11 w-11 place-items-center rounded-xl bg-emerald-500/15 font-extrabold text-emerald-300">3</span><h3 class="mb-2 font-bold" data-i18n="step3Title">اختيار الملف</h3><p class="text-sm leading-7 text-slate-400" data-i18n="step3Text">إذا نجحت المعالجة، اختر تنزيل الفيديو أو الصوت.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="px-4 py-16">
+      <div class="mx-auto max-w-3xl">
+        <h2 class="mb-8 text-center text-2xl font-extrabold sm:text-3xl" data-i18n="faqTitle">الأسئلة الشائعة</h2>
+        <div class="space-y-3">
+          <details class="rounded-2xl border border-white/10 bg-slate-900 p-5"><summary class="cursor-pointer font-bold" data-i18n="faqQ1">هل TikSave Maroc مجاني؟</summary><p class="pt-4 text-sm leading-7 text-slate-400" data-i18n="faqA1">واجهة الموقع متاحة للاستعمال مجاناً. قد تتغير إتاحة خدمة المعالجة الخارجية أو شروطها.</p></details>
+          <details class="rounded-2xl border border-white/10 bg-slate-900 p-5"><summary class="cursor-pointer font-bold" data-i18n="faqQ2">لماذا لا يعمل بعض الروابط؟</summary><p class="pt-4 text-sm leading-7 text-slate-400" data-i18n="faqA2">قد يكون الفيديو خاصاً أو محذوفاً، أو قد تكون خدمة API متوقفة أو محدودة مؤقتاً. جرّب رابطاً عاماً آخر لاحقاً.</p></details>
+          <details class="rounded-2xl border border-white/10 bg-slate-900 p-5"><summary class="cursor-pointer font-bold" data-i18n="faqQ3">أين أجد الملف بعد تنزيله؟</summary><p class="pt-4 text-sm leading-7 text-slate-400" data-i18n="faqA3">غالباً ستجده في مجلد Downloads أو في قائمة التنزيلات في المتصفح.</p></details>
+          <details class="rounded-2xl border border-white/10 bg-slate-900 p-5"><summary class="cursor-pointer font-bold" data-i18n="faqQ4">هل الموقع تابع لـ TikTok؟</summary><p class="pt-4 text-sm leading-7 text-slate-400" data-i18n="faqA4">لا. TikSave Maroc مشروع مستقل وغير تابع رسمياً إلى TikTok.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="border-t border-white/5 bg-slate-900/35 px-4 py-12">
+      <div class="mx-auto max-w-3xl text-center">
+        <h2 class="mb-3 text-xl font-extrabold" data-i18n="aboutTitle">حول TikSave Maroc</h2>
+        <p class="text-sm leading-8 text-slate-400" data-i18n="aboutText">TikSave Maroc واجهة ويب مستقلة تساعد المستخدم على إرسال رابط TikTok إلى خدمة معالجة خارجية. لا نستضيف الفيديوهات على خوادمنا.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 px-4 py-7 text-center text-xs leading-7 text-slate-500">
+    <p>© <span id="year"></span> TikSave Maroc. <span data-i18n="footer">جميع الحقوق محفوظة.</span></p>
+    <p class="mt-1" data-i18n="footerDisclaimer">هذا الموقع غير تابع رسمياً لشركة TikTok.</p>
+  </footer>
+
+<script>
+(() => {
+  "use strict";
+  const API_ENDPOINT = "https://www.tikwm.com/api/";
+  const $ = (id) => document.getElementById(id);
+  let currentVideoUrl = "";
+  let currentAudioUrl = "";
+
+  const translations = {
+    ar: {
+      navHow:"طريقة الاستعمال",navFaq:"الأسئلة الشائعة",navAbout:"حول الموقع",languageLabel:"اللغة",
+      badge:"سريع • سهل الاستعمال • بدون تسجيل",heroTitle:'حمّل فيديوهات TikTok <span class="gradient-text">بسهولة</span>',
+      heroDesc:"ألصق رابط فيديو TikTok، ثم اطلب جلب معلوماته واختر الفيديو أو الصوت إذا كانت الخدمة متاحة.",
+      urlPlaceholder:"ألصق رابط فيديو TikTok هنا...",paste:"لصق الرابط",getVideo:"جلب الفيديو",
+      inputHint:"استعمل رابطاً عاماً لفيديو TikTok. لا تدخل كلمة المرور أو أي معلومات شخصية.",
+      downloadVideo:"تحميل الفيديو بدون علامة مائية",downloadAudio:"تحميل الصوت MP3",
+      downloadHint:"إذا منع المتصفح التحميل المباشر، سيفتح رابط الملف في نافذة جديدة.",
+      rightsNotice:"احترم حقوق النشر وخصوصية أصحاب المحتوى. حمّل فقط المحتوى الذي تملك الحق في استعماله.",
+      howTitle:"كيفاش تستعمل TikSave Maroc؟",howDesc:"ثلاث خطوات بسيطة للبدء.",
+      step1Title:"نسخ الرابط",step1Text:"افتح TikTok واختر مشاركة ثم نسخ الرابط.",
+      step2Title:"لصق الرابط",step2Text:"ألصق الرابط في الخانة واضغط على جلب الفيديو.",
+      step3Title:"اختيار الملف",step3Text:"إذا نجحت المعالجة، اختر تنزيل الفيديو أو الصوت.",
+      faqTitle:"الأسئلة الشائعة",faqQ1:"هل TikSave Maroc مجاني؟",
+      faqA1:"واجهة الموقع متاحة للاستعمال مجاناً. قد تتغير إتاحة خدمة المعالجة الخارجية أو شروطها.",
+      faqQ2:"لماذا لا يعمل بعض الروابط؟",faqA2:"قد يكون الفيديو خاصاً أو محذوفاً، أو قد تكون خدمة API متوقفة أو محدودة مؤقتاً. جرّب رابطاً عاماً آخر لاحقاً.",
+      faqQ3:"أين أجد الملف بعد تنزيله؟",faqA3:"غالباً ستجده في مجلد Downloads أو في قائمة التنزيلات في المتصفح.",
+      faqQ4:"هل الموقع تابع لـ TikTok؟",faqA4:"لا. TikSave Maroc مشروع مستقل وغير تابع رسمياً إلى TikTok.",
+      aboutTitle:"حول TikSave Maroc",aboutText:"TikSave Maroc واجهة ويب مستقلة تساعد المستخدم على إرسال رابط TikTok إلى خدمة معالجة خارجية. لا نستضيف الفيديوهات على خوادمنا.",
+      footer:"جميع الحقوق محفوظة.",footerDisclaimer:"هذا الموقع غير تابع رسمياً لشركة TikTok.",
+      invalid:"عافاك دخل رابط TikTok صحيح.",loading:"جاري جلب معلومات الفيديو...",apiError:"ما قدرناش نجبدو الفيديو. تأكد أنه عام وحاول مرة أخرى.",
+      networkError:"وقع مشكل في الاتصال بخدمة التحميل. حاول لاحقاً.",noMedia:"الخدمة لم تُرجع رابط الفيديو أو الصوت.",
+      pasteDenied:"المتصفح منع الوصول إلى الحافظة. ألصق الرابط يدوياً.",downloadFail:"تعذر تنزيل الملف مباشرة. سنفتح الرابط في نافذة جديدة.",
+      videoReady:"تم العثور على الفيديو. اختار طريقة التحميل.",working:"جاري تجهيز الملف..."
+    },
+    en: {
+      navHow:"How it works",navFaq:"FAQ",navAbout:"About",languageLabel:"Language",
+      badge:"Fast • Easy to use • No sign-up",heroTitle:'Download TikTok videos <span class="gradient-text">easily</span>',
+      heroDesc:"Paste a public TikTok video link, fetch its details, then choose video or audio when available.",
+      urlPlaceholder:"Paste TikTok video link here...",paste:"Paste link",getVideo:"Get video",
+      inputHint:"Use a public TikTok video URL. Never enter your password or personal information.",
+      downloadVideo:"Download video without watermark",downloadAudio:"Download audio MP3",
+      downloadHint:"If your browser blocks direct downloading, the file link will open in a new tab.",
+      rightsNotice:"Respect copyright and creators’ privacy. Only download content you have permission to use.",
+      howTitle:"How to use TikSave Maroc",howDesc:"Three simple steps to get started.",
+      step1Title:"Copy the link",step1Text:"Open TikTok, tap Share, then Copy link.",
+      step2Title:"Paste the link",step2Text:"Paste it into the field and click Get video.",
+      step3Title:"Choose a file",step3Text:"If processing succeeds, choose video or audio download.",
+      faqTitle:"Frequently asked questions",faqQ1:"Is TikSave Maroc free?",
+      faqA1:"The website interface is free to use. Availability and terms of the external processing service may change.",
+      faqQ2:"Why do some links fail?",faqA2:"The video may be private or deleted, or the external API may be unavailable or rate-limited. Try another public link later.",
+      faqQ3:"Where are downloaded files saved?",faqA3:"They are usually saved in your Downloads folder or shown in your browser’s downloads list.",
+      faqQ4:"Is this website affiliated with TikTok?",faqA4:"No. TikSave Maroc is an independent project and is not officially affiliated with TikTok.",
+      aboutTitle:"About TikSave Maroc",aboutText:"TikSave Maroc is an independent web interface that sends TikTok links to an external processing service. We do not host videos on our servers.",
+      footer:"All rights reserved.",footerDisclaimer:"This website is not officially affiliated with TikTok.",
+      invalid:"Please enter a valid TikTok URL.",loading:"Fetching video details...",apiError:"We couldn't retrieve this video. Make sure it is public and try again.",
+      networkError:"There was a problem connecting to the download service. Please try again later.",noMedia:"The service did not return a video or audio URL.",
+      pasteDenied:"Your browser blocked clipboard access. Please paste the link manually.",downloadFail:"Direct download was blocked. Opening the file link in a new tab.",
+      videoReady:"Video found. Choose a download option.",working:"Preparing your file..."
+    },
+    fr: {
+      navHow:"Comment ça marche",navFaq:"FAQ",navAbout:"À propos",languageLabel:"Langue",
+      badge:"Rapide • Simple • Sans inscription",heroTitle:'Téléchargez des vidéos TikTok <span class="gradient-text">facilement</span>',
+      heroDesc:"Collez le lien public d’une vidéo TikTok, récupérez ses informations puis choisissez la vidéo ou l’audio si disponible.",
+      urlPlaceholder:"Collez le lien de la vidéo TikTok ici...",paste:"Coller le lien",getVideo:"Récupérer la vidéo",
+      inputHint:"Utilisez un lien public TikTok. Ne saisissez jamais votre mot de passe ni vos informations personnelles.",
+      downloadVideo:"Télécharger la vidéo sans filigrane",downloadAudio:"Télécharger l’audio MP3",
+      downloadHint:"Si le navigateur bloque le téléchargement direct, le lien du fichier s’ouvrira dans un nouvel onglet.",
+      rightsNotice:"Respectez les droits d’auteur et la vie privée des créateurs. Téléchargez uniquement les contenus que vous êtes autorisé à utiliser.",
+      howTitle:"Comment utiliser TikSave Maroc ?",howDesc:"Trois étapes simples pour commencer.",
+      step1Title:"Copier le lien",step1Text:"Ouvrez TikTok, appuyez sur Partager puis Copier le lien.",
+      step2Title:"Coller le lien",step2Text:"Collez-le dans le champ puis cliquez sur Récupérer la vidéo.",
+      step3Title:"Choisir le fichier",step3Text:"Si le traitement réussit, choisissez la vidéo ou l’audio.",
+      faqTitle:"Questions fréquentes",faqQ1:"TikSave Maroc est-il gratuit ?",
+      faqA1:"L’interface du site est gratuite. La disponibilité et les conditions du service externe peuvent changer.",
+      faqQ2:"Pourquoi certains liens ne fonctionnent-ils pas ?",faqA2:"La vidéo peut être privée ou supprimée, ou l’API externe peut être indisponible ou limitée. Réessayez plus tard avec un lien public.",
+      faqQ3:"Où trouver les fichiers téléchargés ?",faqA3:"Ils sont généralement enregistrés dans le dossier Téléchargements ou affichés dans la liste des téléchargements du navigateur.",
+      faqQ4:"Ce site est-il affilié à TikTok ?",faqA4:"Non. TikSave Maroc est un projet indépendant et n’est pas officiellement affilié à TikTok.",
+      aboutTitle:"À propos de TikSave Maroc",aboutText:"TikSave Maroc est une interface indépendante qui transmet les liens TikTok à un service de traitement externe. Nous n’hébergeons pas les vidéos sur nos serveurs.",
+      footer:"Tous droits réservés.",footerDisclaimer:"Ce site n’est pas officiellement affilié à TikTok.",
+      invalid:"Veuillez saisir une URL TikTok valide.",loading:"Récupération des informations vidéo...",apiError:"Impossible de récupérer cette vidéo. Vérifiez qu’elle est publique puis réessayez.",
+      networkError:"Problème de connexion au service de téléchargement. Veuillez réessayer plus tard.",noMedia:"Le service n’a renvoyé aucun lien vidéo ou audio.",
+      pasteDenied:"Votre navigateur a bloqué l’accès au presse-papiers. Collez le lien manuellement.",downloadFail:"Le téléchargement direct a été bloqué. Ouverture du lien dans un nouvel onglet.",
+      videoReady:"Vidéo trouvée. Choisissez une option de téléchargement.",working:"Préparation du fichier..."
+    }
+  };
+
+  function setLanguage(lang) {
+    const selected = translations[lang] ? lang : "ar";
+    const dict = translations[selected];
+    document.documentElement.lang = selected;
+    document.documentElement.dir = selected === "ar" ? "rtl" : "ltr";
+    document.body.style.fontFamily = selected === "ar" ? '"Cairo", sans-serif' : '"Inter", sans-serif';
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const key = el.dataset.i18n;
+      if (dict[key]) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+      const key = el.dataset.i18nPlaceholder;
+      if (dict[key]) el.placeholder = dict[key];
+    });
+    document.title = selected === "ar"
+      ? "TikSave Maroc - تحميل فيديوهات TikTok بدون علامة مائية"
+      : selected === "fr" ? "TikSave Maroc - Téléchargeur TikTok" : "TikSave Maroc - TikTok Downloader";
+    try { localStorage.setItem("tiksave_language", selected); } catch (_) {}
+  }
+
+  function message(text, type = "info") {
+    const box = $("status");
+    box.textContent = text;
+    box.hidden = false;
+    box.className = "mt-5 rounded-2xl border p-4 text-sm leading-7 " +
+      (type === "error" ? "border-rose-400/30 bg-rose-500/10 text-rose-200" :
+       type === "success" ? "border-emerald-400/30 bg-emerald-500/10 text-emerald-200" :
+       "border-cyan-400/30 bg-cyan-500/10 text-cyan-100");
+  }
+
+  function validTikTokUrl(value) {
+    try {
+      const url = new URL(value);
+      return ["tiktok.com", "www.tiktok.com", "m.tiktok.com", "vm.tiktok.com", "vt.tiktok.com"].includes(url.hostname.toLowerCase());
+    } catch (_) { return false; }
+  }
+
+  async function pasteLink() {
+    try {
+      if (!navigator.clipboard || !navigator.clipboard.readText) throw new Error("clipboard");
+      $("tiktok-url").value = await navigator.clipboard.readText();
+      $("tiktok-url").focus();
+    } catch (_) {
+      message(translations[document.documentElement.lang].pasteDenied, "error");
+    }
+  }
+
+  async function fetchVideo() {
+    const url = $("tiktok-url").value.trim();
+    const lang = document.documentElement.lang;
+    const dict = translations[lang] || translations.ar;
+    $("result").hidden = true;
+    $("status").hidden = true;
+    if (!validTikTokUrl(url)) { message(dict.invalid, "error"); $("tiktok-url").focus(); return; }
+
+    const btn = $("fetch-btn");
+    btn.disabled = true;
+    $("fetch-spinner").hidden = false;
+    message(dict.loading);
+    currentVideoUrl = "";
+    currentAudioUrl = "";
+
+    try {
+      const endpoint = API_ENDPOINT + "?url=" + encodeURIComponent(url);
+      const response = await fetch(endpoint, { method:"GET", headers:{ "Accept":"application/json" } });
+      if (!response.ok) throw new Error("http");
+      const result = await response.json();
+      if (result.code !== 0 || !result.data) {
+        message(result.msg || dict.apiError, "error");
+        return;
+      }
+      const data = result.data;
+      currentVideoUrl = typeof data.play === "string" ? data.play : "";
+      currentAudioUrl = typeof data.music === "string" ? data.music : "";
+      if (!currentVideoUrl && !currentAudioUrl) { message(dict.noMedia, "error"); return; }
+
+      $("cover").src = data.cover || "";
+      $("avatar").src = data.author && data.author.avatar ? data.author.avatar : "";
+      $("creator").textContent = data.author && data.author.unique_id ? "@" + data.author.unique_id : "";
+      $("video-title").textContent = data.title || "";
+      $("video-download").disabled = !currentVideoUrl;
+      $("audio-download").disabled = !currentAudioUrl;
+      $("video-download").classList.toggle("opacity-40", !currentVideoUrl);
+      $("audio-download").classList.toggle("opacity-40", !currentAudioUrl);
+      $("result").hidden = false;
+      message(dict.videoReady, "success");
+    } catch (error) {
+      message(dict.networkError, "error");
+    } finally {
+      btn.disabled = false;
+      $("fetch-spinner").hidden = true;
+    }
+  }
+
+  async function downloadFile(type) {
+    const target = type === "video" ? currentVideoUrl : currentAudioUrl;
+    if (!target) return;
+    const dict = translations[document.documentElement.lang] || translations.ar;
+    const button = type === "video" ? $("video-download") : $("audio-download");
+    const original = button.textContent;
+    button.disabled = true;
+    button.textContent = dict.working;
+    try {
+      const response = await fetch(target);
+      if (!response.ok) throw new Error("download");
+      const blob = await response.blob();
+      const blobUrl = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = blobUrl;
+      a.download = type === "video" ? "TikSave-Maroc-video.mp4" : "TikSave-Maroc-audio.mp3";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(blobUrl), 1500);
+    } catch (_) {
+      message(dict.downloadFail, "info");
+      window.open(target, "_blank", "noopener,noreferrer");
+    } finally {
+      button.disabled = false;
+      button.textContent = original;
+    }
+  }
+
+  $("paste-btn").addEventListener("click", pasteLink);
+  $("fetch-btn").addEventListener("click", fetchVideo);
+  $("video-download").addEventListener("click", () => downloadFile("video"));
+  $("audio-download").addEventListener("click", () => downloadFile("audio"));
+  $("tiktok-url").addEventListener("keydown", event => { if (event.key === "Enter") fetchVideo(); });
+  $("language").addEventListener("change", event => setLanguage(event.target.value));
+  $("year").textContent = new Date().getFullYear();
+
+  let saved = "ar";
+  try { saved = localStorage.getItem("tiksave_language") || "ar"; } catch (_) {}
+  $("language").value = translations[saved] ? saved : "ar";
+  setLanguage($("language").value);
+})();
+</script>
+</body>
+</html>
